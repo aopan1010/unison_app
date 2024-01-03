@@ -13,12 +13,23 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->default('未設定');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->text('introduction')->nullable();
+            $table->integer('age')->nullable();
+            $table->unsignedBigInteger('prefecture_id');
+            $table->tinyInteger('gender')->nullable()->comment('1:men 2:femail 3:non_selected');
+            $table->string('profile_image')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('prefecture_id')
+                ->references('id')
+                ->on('prefectures')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('name')->default('未設定');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->text('introduction')->nullable();
             $table->integer('age')->nullable();
-            $table->unsignedBigInteger('prefecture_id');
+            $table->unsignedBigInteger('prefecture_id')->nullable();
             $table->tinyInteger('gender')->nullable()->comment('1:men 2:femail 3:non_selected');
             $table->string('profile_image')->nullable();
             $table->rememberToken();

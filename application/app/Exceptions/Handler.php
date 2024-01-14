@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Inertia\Inertia;
+use Illuminate\Routing\Exceptions\InvalidSignatureException;
 
 class Handler extends ExceptionHandler
 {
@@ -23,6 +25,10 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        $this->renderable(function (InvalidSignatureException $e) {
+            return Inertia::render('Error/403', [], 403);
+        });
+
         $this->reportable(function (Throwable $e) {
             //
         });

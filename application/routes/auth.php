@@ -7,23 +7,21 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\ProvisionalRegistrationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('guest')->group(function () {
-    // Route::get('register', [RegisteredUserController::class, 'create'])
-    //             ->name('register');
+    //新規登録:メールアドレスのみ記入フォーム
+    Route::get('register', [ProvisionalRegistrationController::class, 'create'])->name('register.first');
 
-    // Route::post('register', [RegisteredUserController::class, 'store']);
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register.first');
+    //新規登録:仮登録完了メールの送信
+    Route::post('register', [ProvisionalRegistrationController::class, 'sendmail'])->name('register.first.sendmail');
 
-    Route::post('register', [RegisteredUserController::class, 'register_sendmail'])
-        ->name('register.first.sendmail');
-
-    Route::get('register/form/{user}', [RegisteredUserController::class, 'register'])
+    //新規登録:本登録入力フォーム
+    Route::get('register/form/{user}', [RegisteredUserController::class, 'create'])
         ->name('register.form')
         ->middleware('signed');;
 
